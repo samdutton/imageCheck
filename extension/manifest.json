@@ -1,0 +1,35 @@
+{
+	"name" : "Image Check",
+	"version" : "1.2",
+	"manifest_version" : 2,
+	"description" : "Check for resized images",
+	"background": {
+    "scripts": ["js/background.js"],
+    "persistent": true
+  },
+	"browser_action" : {
+		"default_icon" : "images/imageCheck22.png",
+		"default_title" : "Click to check for resized images"
+	},
+	"content_scripts" : [
+		{
+			"matches" : [
+				"http://*/*",
+				"https://*/*"
+			],
+
+		"css" : ["css/injected.css"],
+		"js" : ["js/contentscript.js"],
+		"run_at" : "document_end",
+		"all_frames" : true
+		}
+	],
+	"icons" : {
+		"16" : "images/imageCheck16.png",
+		"22" : "images/imageCheck22.png",
+		"32" : "images/imageCheck32.png",
+		"48" : "images/imageCheck48.png",
+		"128": "images/imageCheck128.png"
+	},
+	"permissions": []
+  }
