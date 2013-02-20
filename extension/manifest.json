@@ -9,6 +9,7 @@
   },
 	"browser_action" : {
 		"default_icon" : "images/imageCheck22.png",
+		"default_popup": "popup.html",
 		"default_title" : "Click to check for resized images"
 	},
 	"content_scripts" : [

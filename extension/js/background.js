@@ -1,6 +1,8 @@
-chrome.browserAction.onClicked.addListener(function(tab) {
-	chrome.tabs.getSelected(null, function(tab) {
-	  chrome.tabs.sendMessage(tab.id, {type: "imageCheck"}, function(response) {
-	  });
-	});
+chrome.extension.onMessage.addListener(
+  function(request, sender, sendResponse) {
+  	console.log("background.js request.type: ", request.type);
+    if (request.type == "resizedImage") {
+      sendResponse({});
+      console.log(request);
+    }
 });
