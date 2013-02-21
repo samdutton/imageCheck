@@ -1,52 +1,49 @@
-var sendResponseFunction;
-var resizedImages = [];
-var numImgElements = 0;
-var numChecked = 0;
 
 chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse){
-  	sendResponseFunction = sendResponse;
+		var resizedImages = [];
+		var numImgElements = 0;
     if (request.type == "sendResizedImages") {
-      checkImages();
+			var imgElements = document.querySelectorAll("img");
+			numImgElements = imgElements.length;
+			if (numImgElements == 0) {
+				return;
+			}
+			for (var i = 0; i != numImgElements; ++i) {
+				var img = imgElements[i];
+				var src = img.src;
+				var fileName = img.src.match(/[^/]*$/)[0].substring(0, 50);
+				var width = img.width;
+				var height = img.height;
+				var naturalWidth = img.naturalWidth;
+				var naturalHeight = img.naturalHeight;
+				if (!(naturalWidth == 1 && naturalHeight == 1) && // ignore 1x1px images
+					(width != naturalWidth || height != naturalHeight)) {
+					img.style.border= "10px dotted red";
+					var ratioMessage = "";
+					var naturalAspectRatio = (naturalWidth/naturalHeight).toFixed(3);
+					var aspectRatio = (width/height).toFixed(3);
+					if (naturalAspectRatio !== aspectRatio) {
+						ratioMessage = "Resized image has changed aspect ratio (width/height):" +
+							"\n- natural " + naturalAspectRatio +
+							"\n- resized " + aspectRatio;
+					}
+					img.title = "Image has been resized:\n" +
+						"- natural " + naturalWidth + "x" + naturalHeight + "px\n" +
+						"- resized " + width + "x" + height + "px\n\n" + ratioMessage;
+					resizedImages.push({
+						"type": "resizedImage",
+						"src": src,
+						"fileName": fileName,
+						"width": width,
+						"height": height,
+						"naturalWidth": naturalWidth,
+						"naturalHeight": naturalHeight
+					});
+				}
+			}
+			if (resizedImages.length > 0) {
+				sendResponse({"type": "test", "resizedImages": resizedImages});
+			}
 		}
-		return true;
 });
-
-function checkImages(){
-	var imgElements = document.querySelectorAll("img");
-	numImgElements = imgElements.length;
-	for (var i = 0; i != numImgElements; ++i) {
-		var img = imgElements[i];
-		check(img);
-	}
-}
-
-function check(img){
-	var fileName = img.src.match(/[^/]*$/);
-	var width = img.width;
-	var height = img.height;
-	var image = new Image();
-	console.log("check()");
-	image.onload = function(){
-		// img height and width are zero if unresized
-		if ((width != 0 && width != image.width) || (height != 0 && height != image.height)) {
-			img.style.border= "2px dotted red";
-			img.title = "Image has been resized. Original: width " +
-				image.width + "px, height " + image.height + "px. Resized: width " +
-				width + "px, height " + height + "px";
-			resizedImages.push({
-				"type": "resizedImage",
-				"fileName": fileName,
-				"width": width,
-				"height": height,
-				"imageWidth": image.width,
-				"imageHeight": image.height
-			});
-		}
-		numChecked += 1;
-		if (numChecked === numImgElements){
-			sendResponseFunction({"type": "test", "resizedImages": resizedImages});
-		}
-	}
-	image.src = img.src;
-}

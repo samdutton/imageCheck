@@ -1,5 +1,5 @@
 {
-	"name" : "Image Check",
+	"name" : "_Image Check",
 	"version" : "1.2",
 	"manifest_version" : 2,
 	"description" : "Check for resized images",
