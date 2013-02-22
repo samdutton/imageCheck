@@ -1,5 +1,5 @@
 a {
-color: #77aaff;
+color: #15c;
 outline: none;
 text-decoration: none;
 }
@@ -11,16 +11,13 @@ text-decoration: underline;
 
 a#viewSource {
 display: block;
-margin: 1.3em 0 0 0;
-border-top: 1px solid #999;
-padding: 1em 0 0 0;
+font-size: 0.8em;
 }
 
 body {
-background: #666;
-font-family: Arial, sans-serif;
-padding: 1em;
-width: 30em;
+font-family: 'Lucida Grande', sans-serif;
+padding: 0.5em;
+min-width: 30em;
 word-break: break-word;
 }
 
@@ -29,35 +26,54 @@ font-family: 'Courier New', monospace;
 letter-spacing: -0.1em;
 }
 
-div#container {
-background: #000;
-margin: 0 auto 0 auto;
-max-width: 40em;
-padding: 1em 1.5em 1.3em 1.5em;
-}
-
-div#numResized {
-border-bottom: 1px solid #eee;
-color: white;
-font-weight: bold;
+div#resizedImages {
+border-bottom: 1px solid #aaa;
+font-size: 0.8em;
+line-height: 1.3em;
 margin: 0 0 1em 0;
 padding: 0 0 1em 0;
 }
 
-div.image {
-border-bottom: 1px solid #333;
-color: #ddd;
+div#singlePixelImages {
+border-bottom: 1px solid #aaa;
 font-size: 0.8em;
 line-height: 1.3em;
+margin: 0 0 1em 0;
+padding: 0 0 1em 0;
+}
+
+div.resizedImage {
+border-bottom: 1px solid #eee;
+cursor: pointer;
 min-height: 5em; /* to cope with img.thumbnail */
 margin: 0 0 1em 0;
 padding: 0 0 1em 0;
 }
 
-div.image:last-child {
-border-bottom: none;
+div.resizedImage:last-child {
+border: none;
 margin: 0;
-padding: 0;
+padding: 0
+}
+
+div.resizedImageFilename {
+color: #15c;
+cursor: pointer;
+}
+
+div.resizedImage:hover div.resizedImageFilename {
+color: #88bbff;
+text-decoration: underline;
+}
+
+div.singlePixelImage {
+color: #15c;
+cursor: pointer;
+}
+
+div.singlePixelImage:hover {
+color: #88bbff;
+text-decoration: underline;
 }
 
 h1 {
@@ -69,9 +85,11 @@ padding: 0 0 0.4em 0;
 }
 
 h2 {
-color: #ccc;
-font-family: Arial, sans-serif;
-margin: 1.8em 0 0.6em 0;
+border-bottom: 1px solid #eee;
+color: #444;
+font-size: 1em;
+margin: 0 0 1em 0;
+padding: 0 0 1em 0;
 }
 
 img {
@@ -80,25 +98,17 @@ max-width: 100%;
 }
 
 img.thumbnail {
-border: 1px solid red;
+background: #eee; /* to cope with transparent white */
 float: left;
 margin: 0 0.5em 0.5em 0;
 position: relative;
-top: 3px; /* hack to align vertically */
+top: 2px; /* hack to align vertically */
 max-height: 5em;
 max-width: 5em;
 }
 
 p {
-color: #eee;
+color: #444;
+font-size: 0.8em;
 line-height: 1.6em;
-}
-
-p#data {
-border-top: 1px dotted #666;
-font-family: Courier New, monospace;
-line-height: 1.3em;
-max-height: 50em;
-overflow-y: auto;
-padding: 1em 0 0 0;
 }
